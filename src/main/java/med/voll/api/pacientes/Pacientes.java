@@ -14,7 +14,7 @@ import med.voll.api.endereco.Endereco;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Paciente {
+public class Pacientes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +32,14 @@ public class Paciente {
 
     private Boolean ativo;
 
-    public Paciente(CadastroPacientes dados) {
+    public Pacientes(CadastroPacientes dados) {
         this.ativo = true;
         this.nome = dados.nome();
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.cpf = dados.cpf();
         this.endereco = new Endereco(dados.endereco());
+//        this.ativo = dados.ativo();
 
     }
 
@@ -53,10 +54,14 @@ public class Paciente {
         if (dados.endereco() != null){
             this.endereco.atualizarInformacoes(dados.endereco());
         }
+        if (dados.ativo() != null){
+            this.ativo = dados.ativo();
+        }
 
     }
 
     public void excluirPacientes(){
+
         this.ativo = false;
     }
 

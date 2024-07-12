@@ -42,7 +42,7 @@ public class MedicoController {
         return ResponseEntity.ok(page);
     }
 
-    //atualização dos objetos
+    //atualização dos objetos medicos
     @PutMapping
     @Transactional
     public ResponseEntity atualizarMedico(@RequestBody @Valid AtualizarMedico dados) {
@@ -53,7 +53,7 @@ public class MedicoController {
 
     }
 
-    //desativar objetos no banco de dados
+    //desativar objetos medico no banco de dados
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity excluir(@PathVariable Long id) {

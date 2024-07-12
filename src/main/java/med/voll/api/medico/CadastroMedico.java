@@ -9,7 +9,6 @@ import med.voll.api.endereco.DadosEndereco;
 
 public record CadastroMedico(
 
-
         @NotBlank
         String nome,
 
@@ -29,8 +28,6 @@ public record CadastroMedico(
 
         @NotNull
         @Valid
-        DadosEndereco endereco,
-
-
-        Boolean ativo) {
+        DadosEndereco endereco
+        ) {
 }

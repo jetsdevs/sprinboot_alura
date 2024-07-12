@@ -40,7 +40,6 @@ public class Medico {
         this.crm = dados.crm();
         this.especialidade = dados.especialidade();
         this.endereco = new Endereco(dados.endereco());
-        this.ativo = dados.ativo();
     }
 
     public void atualizarInformacoes(AtualizarMedico dados) {
@@ -53,9 +52,6 @@ public class Medico {
         }
         if (dados.endereco() != null) {
             this.endereco.atualizarInformacoes(dados.endereco());
-        }
-        if (dados.ativo() != null){
-            this.ativo = dados.ativo();
         }
     }
 

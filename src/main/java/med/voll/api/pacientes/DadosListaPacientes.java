@@ -5,7 +5,8 @@ public record DadosListaPacientes(Long id,
                                   String email,
                                   String cpf) {
 
-    public DadosListaPacientes(Paciente paciente) {
-        this(paciente.getId(), paciente.getNome(), paciente.getEmail(), paciente.getCpf());
+    public DadosListaPacientes(Pacientes pacientes) {
+        this(pacientes.getId(), pacientes.getNome(),
+                pacientes.getEmail(), pacientes.getCpf());
     }
 }

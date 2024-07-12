@@ -9,7 +9,7 @@ public record AtualizarMedico(
         Long id,
         String nome,
         String telefone,
-        DadosEndereco endereco,
-        Boolean ativo) {
+        DadosEndereco endereco
+        ) {
 
 }
