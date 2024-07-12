@@ -31,6 +31,6 @@ public record CadastroMedico(
         @Valid
         DadosEndereco endereco,
 
-        @NotNull
+
         Boolean ativo) {
 }

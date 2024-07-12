@@ -44,6 +44,7 @@ public class Medico {
     }
 
     public void atualizarInformacoes(AtualizarMedico dados) {
+
         if (dados.nome() != null) {
             this.nome = dados.nome();
         }

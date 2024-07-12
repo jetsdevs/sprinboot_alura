@@ -43,6 +43,7 @@ public class Paciente {
     }
 
     public void atualizarInformacoes(AtualizarPacientes dados){
+
         if (dados.nome() != null){
             this.nome = dados.nome();
         }
