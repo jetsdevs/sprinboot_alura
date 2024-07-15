@@ -1,6 +1,7 @@
-package med.voll.api.medico;
+package med.voll.api.domain.medico;
 
-import med.voll.api.endereco.Endereco;
+import med.voll.api.domain.endereco.DadosEndereco;
+import med.voll.api.domain.endereco.Endereco;
 
 public record ListarMedico(Long id,
                            String nome,
@@ -9,7 +10,8 @@ public record ListarMedico(Long id,
                            Especialidade especialidade
 
 
-) {
+
+                           ) {
 
     public ListarMedico(Medico medico) {
         this(medico.getId(),
