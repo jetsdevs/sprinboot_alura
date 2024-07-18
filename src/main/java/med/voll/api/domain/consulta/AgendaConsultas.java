@@ -1,7 +1,8 @@
 package med.voll.api.domain.consulta;
 
 import med.voll.api.domain.ValidacaoException;
-import med.voll.api.domain.consulta.Validacoes.ValidadorAgendamentoConsultas;
+import med.voll.api.domain.consulta.validacoes.agendamento.ValidadorAgendamentoConsultas;
+import med.voll.api.domain.consulta.validacoes.cancelamento.ValidadorCancelamentoConsulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.pacientes.PacienteRepository;
@@ -12,9 +13,6 @@ import java.util.List;
 
 @Service
 public class AgendaConsultas {
-
-    @Autowired
-    ConsultaRepository repository;
 
     @Autowired
     private ConsultaRepository consultaRepository;
@@ -28,14 +26,16 @@ public class AgendaConsultas {
     @Autowired
     private List<ValidadorAgendamentoConsultas> validadores;
 
+    @Autowired
+    private List<ValidadorCancelamentoConsulta> validadoresCancelamento;
 
     public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
 
-        if (!pacienteRepository.existsById(dados.idPaciente())){
-            throw  new ValidacaoException("Id do paciente não encontrado");
+        if (!pacienteRepository.existsById(dados.idPaciente())) {
+            throw new ValidacaoException("Id do paciente não encontrado");
         }
 
-        if (dados.idMedico() != null && medicoRepository.existsById(dados.idMedico())){
+        if (dados.idMedico() != null && medicoRepository.existsById(dados.idMedico())) {
             throw new ValidacaoException("Id Medico não encontrado");
         }
 
@@ -43,19 +43,22 @@ public class AgendaConsultas {
 
         var pacientes = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
-        var consulta = new Consulta(null, medico, pacientes, dados.data());
-
+        if (medico == null) {
+            throw new ValidacaoException("Não existe medico disponivel nessa data");
+        }
+        var consulta = new Consulta(null, medico, pacientes, dados.data(), null);
         consultaRepository.save(consulta);
 
         return new DadosDetalhamentoConsulta(consulta);
+
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
-        if (dados.idMedico() != null){
+        if (dados.idMedico() != null) {
             return medicoRepository.getReferenceById(dados.idMedico());
         }
 
-        if (dados.especialidade() == null){
+        if (dados.especialidade() == null) {
             throw new ValidacaoException("Especialidade obrigatoria, favor informar");
         }
 
@@ -63,4 +66,14 @@ public class AgendaConsultas {
 
     }
 
+    public void cancelar(DadosCancelamentoConsulta dados) {
+        if (!consultaRepository.existsById(dados.idConsulta())) {
+            throw new ValidacaoException("Informação da consulta não existe");
+        }
+
+        validadoresCancelamento.forEach(v -> v.validar(dados));
+        var consulta = consultaRepository.getReferenceById(dados.idConsulta());
+        consulta.cancelar(dados.motivo());
+
+    }
 }

@@ -1,4 +1,4 @@
-package med.voll.api.domain.consulta.Validacoes;
+package med.voll.api.domain.consulta.validacoes.agendamento;
 
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
 
